@@ -23,6 +23,7 @@ model Chat {
   id           String    @id @default(uuid())
   Messages     Message[]
   participants User[]
+  createdAt    DateTime  @default(now())
 }
 
 model Message {
