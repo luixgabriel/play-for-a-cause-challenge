@@ -15,6 +15,7 @@ model User {
   email     String    @unique
   name      String
   imageUrl  String?
+  password  String
   messages  Message[]
   chats     Chat[]
   createdAt DateTime  @default(now())
