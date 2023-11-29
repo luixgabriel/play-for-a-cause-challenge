@@ -1,9 +1,17 @@
 import { Controller, Get, Post, Body, Param, UseInterceptors, UploadedFile } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
 import { diskStorage } from 'multer';
 import { join } from 'path';
 import { FileInterceptor } from '@nestjs/platform-express';
+import {v2 as cloudinary} from 'cloudinary';
+import { UsersService } from './users.service';
+import { CreateUserDto } from './dto/create-user.dto';
+
+
+cloudinary.config({ 
+  cloud_name: process.env.CLOUD_API_HOST, 
+  api_key: process.env.CLOUD_API_KEY, 
+  api_secret: process.env.CLOUD_API_SECRET
+});
 
 @Controller('users')
 export class UsersController {
@@ -19,8 +27,13 @@ export class UsersController {
     })
   }))
   @Post()
-  create(@Body() data: CreateUserDto, @UploadedFile() image: Express.Multer.File) {
-    return this.usersService.create(data);
+  async create(@Body() data: CreateUserDto, @UploadedFile() image: Express.Multer.File) {
+    if(image){
+      const imageUpload = await cloudinary.uploader.upload(image.path)
+      return this.usersService.create({...data, imageUrl: imageUpload.url});
+    }else{
+     return this.usersService.create(data);
+    }
   }
 
   @Get()
