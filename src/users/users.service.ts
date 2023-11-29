@@ -7,7 +7,6 @@ import { PrismaService } from '../prisma/prisma.service';
 export class UsersService {
   constructor(private prisma: PrismaService) {}
   async create(data: CreateUserDto) {
-  
     const salt = await bcrypt.genSalt();
     data.password = await bcrypt.hash(data.password, salt);
     try {
