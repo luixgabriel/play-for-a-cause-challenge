@@ -2,16 +2,12 @@ import { Injectable, HttpException, HttpStatus, } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from './dto/create-user.dto';
 import { PrismaService } from '../prisma/prisma.service';
-import { validate } from 'class-validator';
 
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
   async create(data: CreateUserDto) {
-    const validationErrors = await validate(data);
-    if (validationErrors.length > 0) {
-      throw new HttpException('Dados de entrada inválidos', HttpStatus.BAD_REQUEST);
-    }
+  
     const salt = await bcrypt.genSalt();
     data.password = await bcrypt.hash(data.password, salt);
     try {
