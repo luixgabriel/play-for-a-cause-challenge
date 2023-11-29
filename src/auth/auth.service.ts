@@ -36,7 +36,7 @@ export class AuthService {
   }
   checkToken(token: string) {
     try {
-      const data = this.jwtService.verify(token, { issuer: 'bolhadev-help' });
+      const data = this.jwtService.verify(token, { issuer: 'play-for-a-cause' });
       return data;
     } catch (error) {
       throw new BadRequestException(error);
