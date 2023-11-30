@@ -27,7 +27,11 @@ export class ChatService {
     try {
       const user = await this.prisma.chat.findFirstOrThrow({where:{
         id
-      }})
+      }, include: {
+        Messages:true,
+        participants: true
+      },
+    })
       return user
     } catch (error) {
       console.log(error)
@@ -53,4 +57,29 @@ export class ChatService {
       throw new HttpException('Esse chat não existe no banco de dados.', HttpStatus.NOT_FOUND)
     }
   }
-}
+
+  async check(id: string){
+    try {
+      return await this.prisma.chat.findUnique({where:{id}})
+    } catch (error) {
+      console.log(error)
+      throw new HttpException('Esse chat não existe no banco de dados.', HttpStatus.NOT_FOUND)
+    }
+  }
+
+  async updateLastMessage(id: string, lastMessage: string){
+    if(!await this.check(id)) throw new HttpException('Esse chat não existe no banco de dados.', HttpStatus.NOT_FOUND)
+    try {
+     const comment = await this.prisma.chat.update({where: {
+       id
+     }, data: {
+      lastMessage
+     }})
+     return comment
+     } catch (error) {
+      throw new HttpException('Esse chat não existe no banco de dados.', HttpStatus.NOT_FOUND)
+     }
+  }
+
+  }
+

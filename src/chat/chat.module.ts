@@ -9,5 +9,6 @@ import { UsersModule } from '../users/users.module';
   imports:[PrismaModule, AuthModule, UsersModule],
   controllers: [ChatController],
   providers: [ChatService],
+  exports:[ChatService]
 })
 export class ChatModule {}
