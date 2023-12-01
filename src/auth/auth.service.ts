@@ -21,7 +21,6 @@ export class AuthService {
         id: user.id,
         email: user.email,
         name: user.name,
-        imageUrl: user.imageUrl,
       },
       {
         expiresIn: '7 days',
@@ -32,6 +31,7 @@ export class AuthService {
       token: token,
       id: user.id,
       name: user.name,
+      imageUrl: user.imageUrl
     };
   }
   checkToken(token: string) {
