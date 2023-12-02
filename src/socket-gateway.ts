@@ -1,6 +1,7 @@
 import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
 import {Server, Socket} from 'socket.io'
 import { MessageService } from "./message/message.service";
+import { UsersService } from "./users/users.service";
 
 
 @WebSocketGateway({
@@ -11,8 +12,8 @@ import { MessageService } from "./message/message.service";
     }
 })
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
-    constructor(private messageService: MessageService){
-      this.onlineUsers = [{id: '1', name: "luix"}];
+    constructor(private messageService: MessageService, private usersService: UsersService){
+      this.onlineUsers = [];
     }
     @WebSocketServer()
     server: Server;
@@ -23,19 +24,21 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }
  
     handleDisconnect(client: Socket) {
-      console.log(client.id)
+      this.onlineUsers = this.onlineUsers.filter((user) => user.socketId !== client.id);
+      this.server.emit("getUsers", this.onlineUsers)
       client.disconnect(true)
     }
 
     @SubscribeMessage('getUsers')
-    handleMessageNew(client: Socket, @MessageBody() userId: string): void {
-      console.log(this.onlineUsers)
-      // !this.onlineUsers.some((user) => user.id === userId) &&
-      //  this.onlineUsers.push({
-      //   id: userId,
-      //   socketId: client.id,
-      // });
-      this.onlineUsers.push({id: userId, name: "vasco"})
+    async handleMessageNew( @ConnectedSocket() client: Socket, @MessageBody() userId: string) {
+      const user = await this.usersService.findOne(userId)
+      if (!this.onlineUsers.some(u => u.id === userId)) {
+        this.onlineUsers.push({
+          user,
+          socketId: client.id
+        });
+        this.server.emit("getUsers", this.onlineUsers);
+      }
       this.server.emit("getUsers", this.onlineUsers)
     }
 
