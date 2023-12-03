@@ -51,7 +51,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         (item) => item.user.id === data.receiverId
       );
      if(user){
-      this.server.to(user.socketId).emit('sendMessage', data); 
+      this.server.emit('sendMessage', data); 
      }
     }
 
