@@ -50,6 +50,20 @@ export class ChatService {
             },
           },
         },
+       select:{
+        id: true,
+        lastMessage:true,
+        createdAt:true,
+        participants: {
+          select:{
+            id: true,
+            name: true,
+            imageUrl: true
+          }
+        },
+        Messages: true
+          
+       }
       });
       return chats
     } catch (error) {

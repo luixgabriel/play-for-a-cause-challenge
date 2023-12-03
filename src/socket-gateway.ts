@@ -30,7 +30,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }
 
     @SubscribeMessage('getUsers')
-    async handleMessageNew( @ConnectedSocket() client: Socket, @MessageBody() userId: string) {
+    async handleOnlineUsers( @ConnectedSocket() client: Socket, @MessageBody() userId: string) {
       const user = await this.usersService.findOne(userId)
       if (!this.onlineUsers.some(u => u.id === userId)) {
         this.onlineUsers.push({
@@ -39,30 +39,22 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         });
         this.server.emit("getUsers", this.onlineUsers);
       }
+    
       this.server.emit("getUsers", this.onlineUsers)
     }
 
-    // @SubscribeMessage('addNewUser')
-    // addNewUser(@MessageBody() userId: string, @ConnectedSocket() client: Socket) {
-    //   //this.server.emit('addNewUser', userId);
-    //   this.onlineUsers.push({id: userId, name: "vasco"})
-    //   this.server.emit("getUsers", this.onlineUsers) // Broadcast the message to all connected clients
-    // }
-
-   
-    @SubscribeMessage('message')
-    handleMessage(@MessageBody() data: string, @ConnectedSocket() client: Socket) {
+    @SubscribeMessage('sendMessage')
+    async handleMessage(@MessageBody() data:{content: string, receiverId: string, senderId: string, chatId: string}) {
       console.log(data)
-      console.log(client.id)
-      this.server.emit('message', data); // Broadcast the message to all connected clients
+      await this.messageService.create({senderId: data.senderId, content: data.content, chatId: data.chatId})
+      const user = this.onlineUsers.find(
+        (item) => item.user.id === data.receiverId
+      );
+     if(user){
+      this.server.to(user.socketId).emit('sendMessage', data); 
+     }
     }
 
-    @SubscribeMessage('getMessage')
-    getMessage(@MessageBody() data: string, @ConnectedSocket() client: Socket) {
-      console.log(data)
-      console.log(client.id)
-      const messages = ['oi', 'tudo bem', 'com vc']
-      this.server.emit('getMessage', messages); // Broadcast the message to all connected clients
-    }
+  
 
 }

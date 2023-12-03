@@ -4,7 +4,7 @@ export class CreateMessageDto {
 
     @IsString()
     @IsOptional()
-    id: string
+    id?: string
 
     @IsString()
     senderId: string
