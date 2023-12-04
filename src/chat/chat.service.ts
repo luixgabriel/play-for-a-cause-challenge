@@ -11,7 +11,7 @@ export class ChatService {
     const user2 = await this.userService.findOne(data.participants[1])
 
     if(await this.isChatExists(user1, user2)) throw new HttpException('Já existe um chat com esse usuário.', HttpStatus.BAD_REQUEST)
-   
+   try {
     return this.prisma.chat.create({
       data:{
         participants: {
@@ -19,14 +19,24 @@ export class ChatService {
         },
       }
     })
+   } catch (error) {
+    console.error(error)
+    throw new HttpException('Erro na solicitação, tente novamente.', HttpStatus.FORBIDDEN);
+   }
+    
   }
 
   findAll() {
-    return this.prisma.chat.findMany({
-      include: {
-        participants: true
-      }
-    })
+    try {
+      return this.prisma.chat.findMany({
+        include: {
+          participants: true
+        }
+      })
+    } catch (error) {
+      console.error(error)
+      throw new HttpException('Erro na solicitação, tente novamente.', HttpStatus.FORBIDDEN);
+    }
   }
 
   async findOne(id: string) {

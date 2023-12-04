@@ -31,6 +31,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     @SubscribeMessage('getUsers')
     async handleOnlineUsers( @ConnectedSocket() client: Socket, @MessageBody() userId: string) {
+    
       const user = await this.usersService.findOne(userId)
       if (!this.onlineUsers.some(u => u.id === userId)) {
         this.onlineUsers.push({

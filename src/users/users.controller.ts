@@ -1,4 +1,5 @@
 import { Controller, Get, Post, Body, Param, UseInterceptors, UploadedFile } from '@nestjs/common';
+import {ApiTags, ApiOperation, ApiResponse} from '@nestjs/swagger'
 import { diskStorage } from 'multer';
 import { join } from 'path';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -14,6 +15,7 @@ cloudinary.config({
 });
 
 @Controller('users')
+@ApiTags('user')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -27,6 +29,9 @@ export class UsersController {
     })
   }))
   @Post()
+  @ApiOperation({summary: 'Criar um novo usuário.'})
+  @ApiResponse({status: 201, description: 'Usuário criado com sucesso.'})
+  @ApiResponse({status: 403, description: 'Erro ao registrar usuário, tente novamente.'})
   async create(@Body() data: CreateUserDto, @UploadedFile() image: Express.Multer.File) {
     if(image){
       const imageUpload = await cloudinary.uploader.upload(image.path)
@@ -37,22 +42,19 @@ export class UsersController {
   }
 
   @Get()
+  @ApiOperation({summary: 'Listar todos os usuários.'})
+  @ApiResponse({status: 200, description: 'Usuários listados com sucesso.'})
+  @ApiResponse({status: 403, description: 'Erro na solicitação, tente novamente.'})
   findAll() {
     return this.usersService.findAll();
   }
 
   @Get(':id')
+  @ApiResponse({status: 200, description: 'Usuário listado com sucesso.'})
+  @ApiResponse({status: 404, description: 'Esse usuário não existe no banco de dados.'})
+  @ApiOperation({summary: 'Listar um usuário específico por id.'})
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(id);
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-  //   return this.usersService.update(id, updateUserDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.usersService.remove(id);
-  // }
 }
