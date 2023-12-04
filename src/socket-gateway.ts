@@ -45,7 +45,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     @SubscribeMessage('sendMessage')
     async handleMessage(@MessageBody() data:{content: string, receiverId: string, senderId: string, chatId: string}) {
-      console.log(data)
+   
       await this.messageService.create({senderId: data.senderId, content: data.content, chatId: data.chatId})
       const user = this.onlineUsers.find(
         (item) => item.user.id === data.receiverId
