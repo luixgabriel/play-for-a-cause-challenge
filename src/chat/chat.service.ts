@@ -69,6 +69,9 @@ export class ChatService {
         },
         Messages: true
           
+       },
+       orderBy: {
+        updatedAt: 'desc'
        }
       });
       return chats

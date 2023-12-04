@@ -23,7 +23,7 @@ export class AuthService {
         name: user.name,
       },
       {
-        expiresIn: '7 days',
+        expiresIn: '7d',
         issuer: 'play-for-a-cause',
       },
     );
