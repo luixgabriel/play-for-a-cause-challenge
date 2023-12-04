@@ -70,22 +70,48 @@ npm run start
 A estrutura de pastas do projeto é organizada da seguinte maneira:
 
 ```
-📂 config
+📂 prisma
  ┗ 📜 multer.js
-📂 controllers
- ┗ 📜 MatchController.js
- ┗ 📜 PlayerController.js
- ┗ 📜 TeamsController.js
-📂 models
- ┗ 📜 Match.js
- ┗ 📜 Players.js
- ┗ 📜 Teams.js
-📂 routes
- ┗ 📜 matchRoutes.js
- ┗ 📜 playerRoutes.js
- ┗ 📜 teamRoutes.js
-📂 upload
-📜 index.js
+📂 src
+ ┗ 📂 auth
+  ┗ 📂 dto
+    ┗ 📜 auth-login.dto.ts
+    ┗ 📜 auth-register.dto.ts
+  ┗ 📜 auth.controller.ts
+  ┗ 📜 auth.module.ts
+  ┗ 📜 auth.service.ts
+ ┗ 📂 chat
+  ┗ 📂 dto
+    ┗ 📜 create-chat.dto.ts
+    ┗ 📜 update-chat.dto.ts
+  ┗ 📜 chat.controller.ts
+  ┗ 📜 chat.module.ts
+  ┗ 📜 chat.service.ts
+ ┗ 📂 guards
+  ┗ 📜 auth.guard.ts
+ ┗ 📂 message
+   ┗ 📂 dto
+    ┗ 📜 create-message.dto.ts
+    ┗ 📜 update-message.dto.ts
+  ┗ 📜 message.controller.ts
+  ┗ 📜 message.module.ts
+  ┗ 📜 message.service.ts
+ ┗ 📂 prisma
+  ┗ 📜 prisma.service.ts
+  ┗ 📜 prisma.module.ts
+ ┗ 📂 users
+  ┗ 📂 dto
+    ┗ 📜 create-user.dto.ts
+    ┗ 📜 update-user.dto.ts
+  ┗ 📜 users.controller.ts
+  ┗ 📜 users.module.ts
+  ┗ 📜 users.service.ts
+ ┗ 📜  app.controller.ts
+ ┗ 📜  app.module.ts
+ ┗ 📜  app.service.ts
+ ┗ 📜  main.ts
+ ┗ 📜  socket-gateway.ts
+📂 storage
 
 ```
 
