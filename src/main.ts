@@ -8,6 +8,7 @@ async function bootstrap() {
   .setTitle('Chat API')
   .setDescription('Api feita para o teste técnico da play for a cause')
   .setVersion('0.0.1')
+  .addBearerAuth()
   .build();
 
 const document = SwaggerModule.createDocument(app, config);
