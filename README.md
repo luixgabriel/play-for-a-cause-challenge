@@ -90,6 +90,8 @@ A estrutura de pastas do projeto é organizada da seguinte maneira:
  ┗ 📜  main.ts
  ┗ 📜  socket-gateway.ts
 📂 storage
-
 ```
+## Novos conhecimentos e Dificuldades
+
+Única dificuldade que eu tive no começo foi com o funcionamento do websocket no nest que depois de ler a documentação consegui resolver bem rápido, já tenho familiaridade e já fiz alguns projetos com esse framework. Como gosto muito de trabalhar com backend essa parte do projeto foi mais fácil.
 
