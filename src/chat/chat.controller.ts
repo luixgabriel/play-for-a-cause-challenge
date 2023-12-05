@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Param, UseGuards} from '@nestjs/common';
-import {ApiTags, ApiOperation, ApiResponse} from '@nestjs/swagger'
+import {ApiTags, ApiOperation, ApiResponse, ApiBearerAuth} from '@nestjs/swagger'
 import { ChatService } from './chat.service';
 import { CreateChatDto } from './dto/create-chat.dto';
 import { AuthGuard } from '../guards/auth.guard';
@@ -7,12 +7,13 @@ import { AuthGuard } from '../guards/auth.guard';
 
 @Controller('chat')
 @ApiTags('Chat')
+@ApiBearerAuth()
 export class ChatController {
   constructor(private readonly chatService: ChatService) {}
 
   @UseGuards(AuthGuard)
   @Post()
-  @ApiOperation({summary: 'Criar um novo chat.'})
+  @ApiOperation({summary: 'Criar um novo chat.',})
   @ApiResponse({status: 201, description: 'Chat criado com sucesso.'})
   @ApiResponse({status: 403, description: 'Erro ao enviar mensagem, tente novamente.'})
   @ApiResponse({status: 404, description: 'Esse usuário não existe no banco de dados.'})
