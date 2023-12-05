@@ -2,6 +2,9 @@
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
 
+## Documentação da API no Swagger
+[https://play-for-a-cause-chat.onrender.com/api-docs](https://play-for-a-cause-chat.onrender.com/api-docs)
+
 # Desafio Play for a cause, Chat em Nest.js!
 O desafio constava em desenvolver uma aplicação de chat com next.js, com uma autenticação de usuário simples e envio de mensagens em tempo real.
 
@@ -39,31 +42,6 @@ Antes de executar o projeto, certifique-se de ter as seguintes dependências ins
 ```
 npm run start
 ```
-## Endpoints
-
-#### Teams
-
-- `GET /`: Lista todos os times cadastrados no banco de dados.
-- `GET /show/:id`: Lista um time específico pelo id dele no banco de dados.
-- `POST /create`: Realiza um cadastro de um time no banco de dados.
-- `PUT /update/:id`: Realiza a atualização no cadastro de um time específico pelo id no banco de dados.
-- `DELETE /delete/:id`: Deleta um time específico pelo id no banco de dados.
-
-#### Players
-
-- `GET /player/showPLayers`: Lista todos os jogadores cadastrados no banco de dados.
-- `GET /player/selectedPlayer/:id`: Lista um jogador específico pelo id dele no banco de dados.
-- `POST /player`: Realiza um cadastro de um jogador no banco de dados.
-- `PUT /player/updatePlayer/:id`: Realiza a atualização no cadastro de um jogador específico pelo id no banco de dados.
-- `DELETE /player/deletePlayer/:id`: Deleta um jogador específico pelo id no banco de dados.
-
-#### Match
-
-- `GET /match/matches`: Lista todas as partidas cadastradas no banco de dados.
-- `GET /match/searchmatch/:id`: Lista uma partida específica pelo id dela no banco de dados.
-- `POST /match`: Realiza um cadastro de uma partida no banco de dados.
-- `PUT /match/current/:id`: Lista a partida em andamento específica pelo id e atualiza os eventos dela.
-- `DELETE /match/deleteMatch/:id`: Deleta uma partida específica pelo id no banco de dados.
 
 ## Estrutura de Pastas
 
@@ -112,6 +90,8 @@ A estrutura de pastas do projeto é organizada da seguinte maneira:
  ┗ 📜  main.ts
  ┗ 📜  socket-gateway.ts
 📂 storage
-
 ```
+## Novos conhecimentos e Dificuldades
+
+Única dificuldade que eu tive no começo foi com o funcionamento do websocket no nest que depois de ler a documentação consegui resolver bem rápido, já tenho familiaridade e já fiz alguns projetos com esse framework. Como gosto muito de trabalhar com backend essa parte do projeto foi mais fácil.
 
